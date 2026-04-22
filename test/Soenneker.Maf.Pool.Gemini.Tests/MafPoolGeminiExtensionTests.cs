@@ -1,15 +1,14 @@
-using Xunit;
 
 namespace Soenneker.Maf.Pool.Gemini.Tests;
 
-[Collection("Collection")]
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
 public sealed class MafPoolGeminiExtensionTests
 {
-    public MafPoolGeminiExtensionTests(ITestOutputHelper output)
+    public MafPoolGeminiExtensionTests( output)
     {
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
