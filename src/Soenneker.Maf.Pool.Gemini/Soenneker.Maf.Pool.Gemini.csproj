@@ -44,7 +44,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="GeminiDotnet.Extensions.AI" Version="0.24.0" />
+        <PackageReference Include="GeminiDotnet.Extensions.AI" Version="0.25.0" />
         <PackageReference Include="Soenneker.Maf.Pool" Version="4.0.56" />
     </ItemGroup>
 </Project>
