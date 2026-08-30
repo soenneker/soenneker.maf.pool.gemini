@@ -13,16 +13,26 @@ Provides Gemini-specific registration extensions for `IMafPool`, enabling integr
 dotnet add package Soenneker.Maf.Pool.Gemini
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Maf.Pool.Gemini;
+using Soenneker.Maf.Pool.Abstract;
 
-IMafPool pool = /* obtain from your application */;
-await pool.AddGemini("value", "value", "value", "value", default);
+await pool.AddGemini(
+    poolId: "chat",
+    key: "gemini-primary",
+    modelId: "gemini-2.5-flash",
+    apiKey: configuration["GEMINI_API_KEY"]!,
+    rpm: 60,
+    instructions: "Answer concisely.",
+    cancellationToken: cancellationToken);
+
+(AIAgent? agent, IMafPoolEntry? entry) =
+    await pool.GetAvailable("chat", cancellationToken);
 ```
 
-Registers a Gemini model in the agent pool with optional rate/token limits.
+`pool` is an `IMafPool` registered by `Soenneker.Maf.Pool`. Pass `endpoint` only when targeting a compatible non-default Gemini endpoint.
 
 ## What you get
 
@@ -37,4 +47,7 @@ Registers a Gemini model in the agent pool with optional rate/token limits.
 
 ## Practical notes
 
-- Cancellation stops pending work; it does not undo work that has already completed.
+- The agent is created lazily and reused until its entry is removed.
+- Store the API key in a secret provider; the pool retains it in the entry options while the entry is registered.
+- Omitted instructions default to `You are a helpful assistant.`
+- Checkout consumes one request from the configured quota. `tokensPerDay` is not reconciled against actual provider token usage.

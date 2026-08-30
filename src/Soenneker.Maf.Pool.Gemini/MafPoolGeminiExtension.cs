@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using GeminiDotnet;
@@ -48,7 +49,8 @@ public static class MafPoolGeminiExtension
                 var geminiOptions = new GeminiClientOptions
                 {
                     ApiKey = opts.ApiKey!,
-                    ModelId = opts.ModelId!
+                    ModelId = opts.ModelId!,
+                    Endpoint = opts.Endpoint is null ? null : new Uri(opts.Endpoint, UriKind.Absolute)
                 };
                 IChatClient chatClient = new GeminiChatClient(geminiOptions);
                 AIAgent agent = chatClient.AsAIAgent(instructions: instructions ?? "You are a helpful assistant.", name: opts.ModelId);
